@@ -8,3 +8,5 @@ Coursera specializations Projects
 3. Model building
 4. Data preprocessing with GCP Dataflow and apache beam at scale.
 5. Training on GCP 
+6. Deploying and Predicting with Cloud AI Platform
+7. Building an App Engine app to serve ML predictions
