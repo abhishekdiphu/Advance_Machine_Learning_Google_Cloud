@@ -181,7 +181,7 @@
 })();
 </script>
 <!--END_WEBSOCKET_SHIM-->
-<meta charset="utf-8" />
+<meta charset="utf-8">
 
 <title>6_deploy</title>
 
@@ -13261,14 +13261,14 @@ div#notebook {
 <h1> Deploying and predicting with model </h1><p>This notebook illustrates:</p>
 <ol>
 <li> Deploying model
-<li> Predicting with model
-</ol>
+</li><li> Predicting with model
+</li></ol>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In [1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>sudo chown -R jupyter:jupyter /home/jupyter/training-data-analyst
@@ -13281,7 +13281,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In [2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Ensure the right version of Tensorflow is installed.</span>
@@ -13295,13 +13295,13 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In [3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># change these to try this notebook out</span>
-<span class="n">BUCKET</span> <span class="o">=</span> <span class="s1">&#39;qwiklabs-gcp-04-60ad0e7dc7b1&#39;</span>
-<span class="n">PROJECT</span> <span class="o">=</span> <span class="s1">&#39;qwiklabs-gcp-04-60ad0e7dc7b1&#39;</span>
-<span class="n">REGION</span> <span class="o">=</span> <span class="s1">&#39;us-central1&#39;</span>
+<span class="n">BUCKET</span> <span class="o">=</span> <span class="s1">'qwiklabs-gcp-04-697a350edf9b'</span>
+<span class="n">PROJECT</span> <span class="o">=</span> <span class="s1">'qwiklabs-gcp-04-697a350edf9b'</span>
+<span class="n">REGION</span> <span class="o">=</span> <span class="s1">'us-central1'</span>
 </pre></div>
 
     </div>
@@ -13311,14 +13311,14 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In [4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;BUCKET&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">BUCKET</span>
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PROJECT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PROJECT</span>
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;REGION&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">REGION</span>
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TFVERSION&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;2.1&#39;</span>  
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'BUCKET'</span><span class="p">]</span> <span class="o">=</span> <span class="n">BUCKET</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'PROJECT'</span><span class="p">]</span> <span class="o">=</span> <span class="n">PROJECT</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'REGION'</span><span class="p">]</span> <span class="o">=</span> <span class="n">REGION</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'TFVERSION'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'2.1'</span>  
 </pre></div>
 
     </div>
@@ -13328,13 +13328,13 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In [5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
 <span class="k">if</span> ! gsutil ls <span class="p">|</span> grep -q gs://<span class="si">${</span><span class="nv">BUCKET</span><span class="si">}</span>/babyweight/trained_model<span class="p">;</span> <span class="k">then</span>
   gsutil mb -l <span class="si">${</span><span class="nv">REGION</span><span class="si">}</span> gs://<span class="si">${</span><span class="nv">BUCKET</span><span class="si">}</span>
-  <span class="c1"># copy canonical model if you didn&#39;t do previous notebook</span>
+  <span class="c1"># copy canonical model if you didn't do previous notebook</span>
   gsutil -m cp -R gs://cloud-training-demos/babyweight/trained_model gs://<span class="si">${</span><span class="nv">BUCKET</span><span class="si">}</span>/babyweight/trained_model
 <span class="k">fi</span>
 </pre></div>
@@ -13353,27 +13353,27 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>Creating gs://qwiklabs-gcp-04-60ad0e7dc7b1/...
-ServiceException: 409 Bucket qwiklabs-gcp-04-60ad0e7dc7b1 already exists.
+<pre>Creating gs://qwiklabs-gcp-04-697a350edf9b/...
+ServiceException: 409 Bucket qwiklabs-gcp-04-697a350edf9b already exists.
 Copying gs://cloud-training-demos/babyweight/trained_model/checkpoint...
 Copying gs://cloud-training-demos/babyweight/trained_model/eval/events.out.tfevents.1529348264.cmle-training-master-a137ac0fff-0-9q8r4...
 Copying gs://cloud-training-demos/babyweight/trained_model/events.out.tfevents.1529347276.cmle-training-master-a137ac0fff-0-9q8r4...
-Copying gs://cloud-training-demos/babyweight/trained_model/export/exporter/1529355466/variables/variables.data-00000-of-00001...
 Copying gs://cloud-training-demos/babyweight/trained_model/export/exporter/1529355466/saved_model.pb...
-Copying gs://cloud-training-demos/babyweight/trained_model/graph.pbtxt...       
+Copying gs://cloud-training-demos/babyweight/trained_model/export/exporter/1529355466/variables/variables.data-00000-of-00001...
+Copying gs://cloud-training-demos/babyweight/trained_model/model.ckpt-376661.index...
 Copying gs://cloud-training-demos/babyweight/trained_model/export/exporter/1529355466/variables/variables.index...
+Copying gs://cloud-training-demos/babyweight/trained_model/model.ckpt-342784.index...
 Copying gs://cloud-training-demos/babyweight/trained_model/model.ckpt-342784.data-00000-of-00003...
+Copying gs://cloud-training-demos/babyweight/trained_model/model.ckpt-376661.meta...
+Copying gs://cloud-training-demos/babyweight/trained_model/graph.pbtxt...
+Copying gs://cloud-training-demos/babyweight/trained_model/model.ckpt-376661.data-00002-of-00003...
 Copying gs://cloud-training-demos/babyweight/trained_model/model.ckpt-342784.data-00001-of-00003...
 Copying gs://cloud-training-demos/babyweight/trained_model/model.ckpt-376661.data-00000-of-00003...
 Copying gs://cloud-training-demos/babyweight/trained_model/model.ckpt-376661.data-00001-of-00003...
-Copying gs://cloud-training-demos/babyweight/trained_model/model.ckpt-342784.data-00002-of-00003...
-Copying gs://cloud-training-demos/babyweight/trained_model/model.ckpt-376661.index...
-Copying gs://cloud-training-demos/babyweight/trained_model/model.ckpt-342784.index...
-Copying gs://cloud-training-demos/babyweight/trained_model/model.ckpt-376661.meta...
 Copying gs://cloud-training-demos/babyweight/trained_model/model.ckpt-342784.meta...
-Copying gs://cloud-training-demos/babyweight/trained_model/model.ckpt-390628.data-00001-of-00003...
-Copying gs://cloud-training-demos/babyweight/trained_model/model.ckpt-376661.data-00002-of-00003...
 Copying gs://cloud-training-demos/babyweight/trained_model/model.ckpt-390628.data-00000-of-00003...
+Copying gs://cloud-training-demos/babyweight/trained_model/model.ckpt-342784.data-00002-of-00003...
+Copying gs://cloud-training-demos/babyweight/trained_model/model.ckpt-390628.data-00001-of-00003...
 Copying gs://cloud-training-demos/babyweight/trained_model/model.ckpt-390628.data-00002-of-00003...
 Copying gs://cloud-training-demos/babyweight/trained_model/model.ckpt-390628.index...
 Copying gs://cloud-training-demos/babyweight/trained_model/model.ckpt-390628.meta...
@@ -13390,8 +13390,8 @@ Operation completed over 22 objects/6.5 MiB.
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><h2> Deploy trained model </h2></p>
-<p><p>
+<p></p><h2> Deploy trained model </h2>
+<p></p><p>
 Deploying the trained model to act as a REST web service is a simple gcloud call.</p>
 
 </div>
@@ -13399,7 +13399,7 @@ Deploying the trained model to act as a REST web service is a simple gcloud call
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In [6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
@@ -13420,7 +13420,7 @@ gsutil ls gs://<span class="si">${</span><span class="nv">BUCKET</span><span cla
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>gs://qwiklabs-gcp-04-60ad0e7dc7b1/babyweight/trained_model/export/exporter/1529355466/
+<pre>gs://qwiklabs-gcp-04-697a350edf9b/babyweight/trained_model/export/exporter/1529355466/
 </pre>
 </div>
 </div>
@@ -13431,14 +13431,14 @@ gsutil ls gs://<span class="si">${</span><span class="nv">BUCKET</span><span cla
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In [7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
-<span class="nv">MODEL_NAME</span><span class="o">=</span><span class="s2">&quot;babyweight&quot;</span>
-<span class="nv">MODEL_VERSION</span><span class="o">=</span><span class="s2">&quot;ml_on_gcp&quot;</span>
+<span class="nv">MODEL_NAME</span><span class="o">=</span><span class="s2">"babyweight"</span>
+<span class="nv">MODEL_VERSION</span><span class="o">=</span><span class="s2">"ml_on_gcp"</span>
 <span class="nv">MODEL_LOCATION</span><span class="o">=</span><span class="k">$(</span>gsutil ls gs://<span class="si">${</span><span class="nv">BUCKET</span><span class="si">}</span>/babyweight/trained_model/export/exporter/ <span class="p">|</span> tail -1<span class="k">)</span>
-<span class="nb">echo</span> <span class="s2">&quot;Deleting and deploying </span><span class="nv">$MODEL_NAME</span><span class="s2"> </span><span class="nv">$MODEL_VERSION</span><span class="s2"> from </span><span class="nv">$MODEL_LOCATION</span><span class="s2"> ... this will take a few minutes&quot;</span>
+<span class="nb">echo</span> <span class="s2">"Deleting and deploying </span><span class="nv">$MODEL_NAME</span><span class="s2"> </span><span class="nv">$MODEL_VERSION</span><span class="s2"> from </span><span class="nv">$MODEL_LOCATION</span><span class="s2"> ... this will take a few minutes"</span>
 <span class="c1">#gcloud ai-platform versions delete ${MODEL_VERSION} --model ${MODEL_NAME}</span>
 <span class="c1">#gcloud ai-platform models delete ${MODEL_NAME}</span>
 gcloud ai-platform models create <span class="si">${</span><span class="nv">MODEL_NAME</span><span class="si">}</span> --regions <span class="nv">$REGION</span>
@@ -13459,7 +13459,7 @@ gcloud ai-platform versions create <span class="si">${</span><span class="nv">MO
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Deleting and deploying babyweight ml_on_gcp from gs://qwiklabs-gcp-04-60ad0e7dc7b1/babyweight/trained_model/export/exporter/1529355466/ ... this will take a few minutes
+<pre>Deleting and deploying babyweight ml_on_gcp from gs://qwiklabs-gcp-04-697a350edf9b/babyweight/trained_model/export/exporter/1529355466/ ... this will take a few minutes
 </pre>
 </div>
 </div>
@@ -13470,7 +13470,7 @@ gcloud ai-platform versions create <span class="si">${</span><span class="nv">MO
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>Created ml engine model [projects/qwiklabs-gcp-04-60ad0e7dc7b1/models/babyweight].
+<pre>Created ml engine model [projects/qwiklabs-gcp-04-697a350edf9b/models/babyweight].
 Creating version (this might take a few minutes)......
 ................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................done.
 </pre>
@@ -13484,8 +13484,8 @@ Creating version (this might take a few minutes)......
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><h2> Use model to predict (online prediction) </h2></p>
-<p><p>
+<p></p><h2> Use model to predict (online prediction) </h2>
+<p></p><p>
 Send a JSON request to the endpoint of the service to make it predict a baby's weight. The order of the responses are the order of the instances.</p>
 
 </div>
@@ -13493,49 +13493,49 @@ Send a JSON request to the endpoint of the service to make it predict a baby's w
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In [8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">oauth2client.client</span> <span class="kn">import</span> <span class="n">GoogleCredentials</span>
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">json</span>
 
-<span class="n">MODEL_NAME</span> <span class="o">=</span> <span class="s1">&#39;babyweight&#39;</span>
-<span class="n">MODEL_VERSION</span> <span class="o">=</span> <span class="s1">&#39;ml_on_gcp&#39;</span>
+<span class="n">MODEL_NAME</span> <span class="o">=</span> <span class="s1">'babyweight'</span>
+<span class="n">MODEL_VERSION</span> <span class="o">=</span> <span class="s1">'ml_on_gcp'</span>
 
 <span class="n">token</span> <span class="o">=</span> <span class="n">GoogleCredentials</span><span class="o">.</span><span class="n">get_application_default</span><span class="p">()</span><span class="o">.</span><span class="n">get_access_token</span><span class="p">()</span><span class="o">.</span><span class="n">access_token</span>
-<span class="n">api</span> <span class="o">=</span> <span class="s1">&#39;https://ml.googleapis.com/v1/projects/</span><span class="si">{}</span><span class="s1">/models/</span><span class="si">{}</span><span class="s1">/versions/</span><span class="si">{}</span><span class="s1">:predict&#39;</span> \
+<span class="n">api</span> <span class="o">=</span> <span class="s1">'https://ml.googleapis.com/v1/projects/</span><span class="si">{}</span><span class="s1">/models/</span><span class="si">{}</span><span class="s1">/versions/</span><span class="si">{}</span><span class="s1">:predict'</span> \
          <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">PROJECT</span><span class="p">,</span> <span class="n">MODEL_NAME</span><span class="p">,</span> <span class="n">MODEL_VERSION</span><span class="p">)</span>
-<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Authorization&#39;</span><span class="p">:</span> <span class="s1">&#39;Bearer &#39;</span> <span class="o">+</span> <span class="n">token</span> <span class="p">}</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'Authorization'</span><span class="p">:</span> <span class="s1">'Bearer '</span> <span class="o">+</span> <span class="n">token</span> <span class="p">}</span>
 <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s1">&#39;instances&#39;</span><span class="p">:</span> <span class="p">[</span>
+  <span class="s1">'instances'</span><span class="p">:</span> <span class="p">[</span>
     <span class="p">{</span>
-      <span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="s1">&#39;b1&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;is_male&#39;</span><span class="p">:</span> <span class="s1">&#39;True&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;mother_age&#39;</span><span class="p">:</span> <span class="mf">26.0</span><span class="p">,</span>
-      <span class="s1">&#39;plurality&#39;</span><span class="p">:</span> <span class="s1">&#39;Single(1)&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;gestation_weeks&#39;</span><span class="p">:</span> <span class="mi">39</span>
+      <span class="s1">'key'</span><span class="p">:</span> <span class="s1">'b1'</span><span class="p">,</span>
+      <span class="s1">'is_male'</span><span class="p">:</span> <span class="s1">'True'</span><span class="p">,</span>
+      <span class="s1">'mother_age'</span><span class="p">:</span> <span class="mf">26.0</span><span class="p">,</span>
+      <span class="s1">'plurality'</span><span class="p">:</span> <span class="s1">'Single(1)'</span><span class="p">,</span>
+      <span class="s1">'gestation_weeks'</span><span class="p">:</span> <span class="mi">39</span>
     <span class="p">},</span>
     <span class="p">{</span>
-      <span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="s1">&#39;g1&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;is_male&#39;</span><span class="p">:</span> <span class="s1">&#39;False&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;mother_age&#39;</span><span class="p">:</span> <span class="mf">29.0</span><span class="p">,</span>
-      <span class="s1">&#39;plurality&#39;</span><span class="p">:</span> <span class="s1">&#39;Single(1)&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;gestation_weeks&#39;</span><span class="p">:</span> <span class="mi">38</span>
+      <span class="s1">'key'</span><span class="p">:</span> <span class="s1">'g1'</span><span class="p">,</span>
+      <span class="s1">'is_male'</span><span class="p">:</span> <span class="s1">'False'</span><span class="p">,</span>
+      <span class="s1">'mother_age'</span><span class="p">:</span> <span class="mf">29.0</span><span class="p">,</span>
+      <span class="s1">'plurality'</span><span class="p">:</span> <span class="s1">'Single(1)'</span><span class="p">,</span>
+      <span class="s1">'gestation_weeks'</span><span class="p">:</span> <span class="mi">38</span>
     <span class="p">},</span>
     <span class="p">{</span>
-      <span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="s1">&#39;b2&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;is_male&#39;</span><span class="p">:</span> <span class="s1">&#39;True&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;mother_age&#39;</span><span class="p">:</span> <span class="mf">26.0</span><span class="p">,</span>
-      <span class="s1">&#39;plurality&#39;</span><span class="p">:</span> <span class="s1">&#39;Triplets(3)&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;gestation_weeks&#39;</span><span class="p">:</span> <span class="mi">39</span>
+      <span class="s1">'key'</span><span class="p">:</span> <span class="s1">'b2'</span><span class="p">,</span>
+      <span class="s1">'is_male'</span><span class="p">:</span> <span class="s1">'True'</span><span class="p">,</span>
+      <span class="s1">'mother_age'</span><span class="p">:</span> <span class="mf">26.0</span><span class="p">,</span>
+      <span class="s1">'plurality'</span><span class="p">:</span> <span class="s1">'Triplets(3)'</span><span class="p">,</span>
+      <span class="s1">'gestation_weeks'</span><span class="p">:</span> <span class="mi">39</span>
     <span class="p">},</span>
     <span class="p">{</span>
-      <span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="s1">&#39;u1&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;is_male&#39;</span><span class="p">:</span> <span class="s1">&#39;Unknown&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;mother_age&#39;</span><span class="p">:</span> <span class="mf">29.0</span><span class="p">,</span>
-      <span class="s1">&#39;plurality&#39;</span><span class="p">:</span> <span class="s1">&#39;Multiple(2+)&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;gestation_weeks&#39;</span><span class="p">:</span> <span class="mi">38</span>
+      <span class="s1">'key'</span><span class="p">:</span> <span class="s1">'u1'</span><span class="p">,</span>
+      <span class="s1">'is_male'</span><span class="p">:</span> <span class="s1">'Unknown'</span><span class="p">,</span>
+      <span class="s1">'mother_age'</span><span class="p">:</span> <span class="mf">29.0</span><span class="p">,</span>
+      <span class="s1">'plurality'</span><span class="p">:</span> <span class="s1">'Multiple(2+)'</span><span class="p">,</span>
+      <span class="s1">'gestation_weeks'</span><span class="p">:</span> <span class="mi">38</span>
     <span class="p">},</span>
   <span class="p">]</span>
 <span class="p">}</span>
@@ -13557,7 +13557,7 @@ Send a JSON request to the endpoint of the service to make it predict a baby's w
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>b&#39;{&#34;predictions&#34;: [{&#34;key&#34;: [&#34;b1&#34;], &#34;predictions&#34;: [7.740230083465576]}, {&#34;key&#34;: [&#34;g1&#34;], &#34;predictions&#34;: [7.247548580169678]}, {&#34;key&#34;: [&#34;b2&#34;], &#34;predictions&#34;: [6.182091236114502]}, {&#34;key&#34;: [&#34;u1&#34;], &#34;predictions&#34;: [6.13692569732666]}]}&#39;
+<pre>b'{"predictions": [{"predictions": [7.740230083465576], "key": ["b1"]}, {"predictions": [7.247548580169678], "key": ["g1"]}, {"predictions": [6.182091236114502], "key": ["b2"]}, {"predictions": [6.13692569732666], "key": ["u1"]}]}'
 </pre>
 </div>
 </div>
@@ -13577,8 +13577,8 @@ Send a JSON request to the endpoint of the service to make it predict a baby's w
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><h2> Use model to predict (batch prediction) </h2></p>
-<p><p>
+<p></p><h2> Use model to predict (batch prediction) </h2>
+<p></p><p>
 Batch prediction is commonly used when you thousands to millions of predictions.
 Create a file with one instance per line and submit using gcloud.</p>
 
@@ -13587,12 +13587,12 @@ Create a file with one instance per line and submit using gcloud.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In [9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%writefile</span> inputs.json
-<span class="p">{</span><span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;b1&quot;</span><span class="p">,</span> <span class="s2">&quot;is_male&quot;</span><span class="p">:</span> <span class="s2">&quot;True&quot;</span><span class="p">,</span> <span class="s2">&quot;mother_age&quot;</span><span class="p">:</span> <span class="mf">26.0</span><span class="p">,</span> <span class="s2">&quot;plurality&quot;</span><span class="p">:</span> <span class="s2">&quot;Single(1)&quot;</span><span class="p">,</span> <span class="s2">&quot;gestation_weeks&quot;</span><span class="p">:</span> <span class="mi">39</span><span class="p">}</span>
-<span class="p">{</span><span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;g1&quot;</span><span class="p">,</span> <span class="s2">&quot;is_male&quot;</span><span class="p">:</span> <span class="s2">&quot;False&quot;</span><span class="p">,</span> <span class="s2">&quot;mother_age&quot;</span><span class="p">:</span> <span class="mf">26.0</span><span class="p">,</span> <span class="s2">&quot;plurality&quot;</span><span class="p">:</span> <span class="s2">&quot;Single(1)&quot;</span><span class="p">,</span> <span class="s2">&quot;gestation_weeks&quot;</span><span class="p">:</span> <span class="mi">39</span><span class="p">}</span>
+<span class="p">{</span><span class="s2">"key"</span><span class="p">:</span> <span class="s2">"b1"</span><span class="p">,</span> <span class="s2">"is_male"</span><span class="p">:</span> <span class="s2">"True"</span><span class="p">,</span> <span class="s2">"mother_age"</span><span class="p">:</span> <span class="mf">26.0</span><span class="p">,</span> <span class="s2">"plurality"</span><span class="p">:</span> <span class="s2">"Single(1)"</span><span class="p">,</span> <span class="s2">"gestation_weeks"</span><span class="p">:</span> <span class="mi">39</span><span class="p">}</span>
+<span class="p">{</span><span class="s2">"key"</span><span class="p">:</span> <span class="s2">"g1"</span><span class="p">,</span> <span class="s2">"is_male"</span><span class="p">:</span> <span class="s2">"False"</span><span class="p">,</span> <span class="s2">"mother_age"</span><span class="p">:</span> <span class="mf">26.0</span><span class="p">,</span> <span class="s2">"plurality"</span><span class="p">:</span> <span class="s2">"Single(1)"</span><span class="p">,</span> <span class="s2">"gestation_weeks"</span><span class="p">:</span> <span class="mi">39</span><span class="p">}</span>
 </pre></div>
 
     </div>
@@ -13620,7 +13620,7 @@ Create a file with one instance per line and submit using gcloud.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In [10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
@@ -13649,7 +13649,7 @@ gcloud ai-platform <span class="nb">jobs</span> submit prediction babypred_<span
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>jobId: babypred_201017_234816
+<pre>jobId: babypred_201018_115720
 state: QUEUED
 </pre>
 </div>
@@ -13665,14 +13665,14 @@ state: QUEUED
 / [1 files][  205.0 B/  205.0 B]                                                
 Operation completed over 1 objects/205.0 B.                                      
 CommandException: 1 files/objects could not be removed.
-Job [babypred_201017_234816] submitted successfully.
+Job [babypred_201018_115720] submitted successfully.
 Your job is still active. You may view the status of your job with the command
 
-  $ gcloud ai-platform jobs describe babypred_201017_234816
+  $ gcloud ai-platform jobs describe babypred_201018_115720
 
 or continue streaming the logs with the command
 
-  $ gcloud ai-platform jobs stream-logs babypred_201017_234816
+  $ gcloud ai-platform jobs stream-logs babypred_201018_115720
 </pre>
 </div>
 </div>
