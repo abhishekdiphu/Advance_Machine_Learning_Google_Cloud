@@ -1,0 +1,275 @@
+1 . Activate Cloud Shell
+Cloud Shell is a virtual machine that is loaded with development tools. It offers a persistent 5GB home directory and runs on the Google Cloud. Cloud Shell provides command-line access to your Google Cloud resources.
+In the Cloud Console, in the top right toolbar, click the Activate Cloud Shell button.
+
+2. gcloud is the command-line tool for Google Cloud. It comes pre-installed on Cloud Shell and supports tab-completion.
+
+You can list the active account name with this command:
+gcloud auth list
+
+3. You can list the project ID with this command:
+gcloud config list project
+
+
+
+4. Check project permissions
+Before you begin your work on Google Cloud, you need
+ to ensure that your project has the correct permissions
+ within Identity and Access Management (IAM).
+
+In the Google Cloud console, on the Navigation menu 
+(nav-menu.png), click IAM & Admin > IAM.
+
+Confirm that the default compute Service Account
+ {project-number}-compute@developer.gserviceaccount.com is present and has the editor role
+ assigned. The account prefix is the project number, which you can find on Navigation menu > Home.
+
+
+5. Creating the virtual environment
+
+ - Execute the following command to download 
+and update the packages list.
+
+sudo apt-get update
+
+- Python virtual environments are used to isolate package installation from the system.
+
+sudo apt-get install virtualenv
+
+virtualenv -p python3 venv
+
+source venv/bin/activate
+
+
+
+6. Copy trained model
+
+Step 1
+Set necessary variables and create a bucket:
+
+REGION=us-central1
+BUCKET=$(gcloud config get-value project)
+TFVERSION=2.1
+gsutil mb -l ${REGION} gs://${BUCKET}
+
+
+Step 2
+Copy trained model into your bucket:
+
+gsutil -m cp -R gs://cloud-training-demos/babyweight/trained_model gs://${BUCKET}/babyweight
+
+
+Deploy trained model
+
+
+Step 1
+Set necessary variables:
+
+MODEL_NAME=babyweight
+MODEL_VERSION=ml_on_gcp
+MODEL_LOCATION=$(gsutil ls gs://${BUCKET}/babyweight/export/exporter/ | tail -1)
+
+Step 2
+Deploy trained model:
+
+gcloud ai-platform models create ${MODEL_NAME} --regions $REGION
+gcloud ai-platform versions create ${MODEL_VERSION} --model ${MODEL_NAME} --origin ${MODEL_LOCATION} --runtime-version $TFVERSION
+
+
+
+Browse lab files
+Duration is 5 min
+
+Step 1
+Clone the course repository:
+
+
+cd ~
+git clone https://github.com/GoogleCloudPlatform/training-data-analyst
+
+
+cd ~/training-data-analyst/courses/machine_learning/deepdive/06_structured/labs/serving
+
+
+
+Run the what_to_fix.sh script to see a list of items you need to add/modify to existing code to run your app:
+
+./what_to_fix.sh
+
+As a result of this, you will see a list of filenames and lines within those files marked with TODO. These are the lines where you have to add/modify code. For this lab, you will focus on #TODO items for .java files only, namely BabyweightMLService.java : which is your prediction service.
+
+
+How the code is organized:
+
+Prediction service
+In this section, you fix the code in BabyweightMLService.java and test it with the run_once.sh script that is provided. If you need help with the code, look at the next section that provides hints on how to fix code in BabyweightMLService.java.
+
+Step 1
+You may use the Cloud Shell code editor to view and edit the contents of these files.
+
+In Cloud Shell, click the Open Editor icon on the top right.
+
+
+
+Step 2
+After it is launched, navigate to the following directory:
+
+training-data-analyst/courses/machine_learning/deepdive/06_structured/labs/serving/pipeline/src/main/java/com/google/cloud/training/mlongcp
+
+
+
+
+Step 3
+Open the BabyweightMLService.java files and replace #TODOs in the code.
+
+Step 4
+Once completed, go into your Cloud Shell and run the run_once.sh script to test your ML service.
+
+cd ~/training-data-analyst/courses/machine_learning/deepdive/06_structured/labs/serving
+./run_once.sh
+
+
+
+Serve predictions for batch requests
+This section of the lab calls AddPrediction.java that takes a batch input (one big CSV), calls the prediction service to generate baby weight predictions and writes them into local files (multiple CSVs).
+
+Step 1
+In your Cloud Shell code editor, open the AddPrediction.java file available in the following directory:
+
+training-data-analyst/courses/machine_learning/deepdive/06_structured/labs/serving/pipeline/src/main/java/com/google/cloud/training/mlongcp
+Step 2
+Look through the code and notice how, based on input argument, it decides to set up a batch or streaming pipeline, and creates the appropriate TextInputOutput or PubSubBigQuery io object respectively to handle the reading and writing.
+
+Note: Look back at the diagram in "how code is organized" section to make sense of it all.
+
+
+
+Prediction service
+In this section, you fix the code in BabyweightMLService.java and test it with the run_once.sh script that is provided. If you need help with the code, look at the next section that provides hints on how to fix code in BabyweightMLService.java.
+
+Step 1
+You may use the Cloud Shell code editor to view and edit the contents of these files.
+
+In Cloud Shell, click the Open Editor icon on the top right.
+
+120a1cbf4e617467.png
+
+Step 2
+After it is launched, navigate to the following directory:
+
+training-data-analyst/courses/machine_learning/deepdive/06_structured/labs/serving/pipeline/src/main/java/com/google/cloud/training/mlongcp
+Step 3
+Open the BabyweightMLService.java files and replace #TODOs in the code.
+
+Step 4
+Once completed, go into your Cloud Shell and run the run_once.sh script to test your ML service.
+
+cd ~/training-data-analyst/courses/machine_learning/deepdive/06_structured/labs/serving
+./run_once.sh
+Serve predictions for batch requests
+This section of the lab calls AddPrediction.java that takes a batch input (one big CSV), calls the prediction service to generate baby weight predictions and writes them into local files (multiple CSVs).
+
+Step 1
+In your Cloud Shell code editor, open the AddPrediction.java file available in the following directory:
+
+training-data-analyst/courses/machine_learning/deepdive/06_structured/labs/serving/pipeline/src/main/java/com/google/cloud/training/mlongcp
+Step 2
+Look through the code and notice how, based on input argument, it decides to set up a batch or streaming pipeline, and creates the appropriate TextInputOutput or PubSubBigQuery io object respectively to handle the reading and writing.
+
+Note: Look back at the diagram in "how code is organized" section to make sense of it all.
+
+Step 3
+Test batch mode by running the run_ontext.sh script provided in the lab directory:
+
+cd ~/training-data-analyst/courses/machine_learning/deepdive/06_structured/labs/serving
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+./run_ontext.sh
+Serve predictions real-time with a streaming pipeline
+In this section of the lab, you will launch a streaming pipeline with Dataflow, which will accept incoming information from Cloud Pub/Sub, use the info to call the prediction service to get baby weight predictions, and finally write that info into a BigQuery table.
+
+Step 1
+On your GCP Console's left-side menu, go into Pub/Sub and click the CREATE TOPIC button on top. Create a topic called babies.
+
+c4128dad787aaada.png
+
+Step 2
+Back in your Cloud Shell, modify the script run_dataflow.sh to get Project ID (using --project) from command line arguments, and then run as follows:
+
+cd ~/training-data-analyst/courses/machine_learning/deepdive/06_structured/labs/serving
+./run_dataflow.sh
+This will create a streaming Dataflow pipeline.
+
+Step 3
+Back in your GCP Console, use the left-side menu to go into Dataflow and verify that the streaming job is created.
+
+eaf7891a8d680d8e.png
+
+Step 4
+Next, click on the job name to view the pipeline graph. Click on the pipeline steps (boxes) and look at the run details (like system lag, elements added, etc.) of that step on the right side.
+
+662fb484741d22e2.png
+
+This means that your pipeline is running and waiting for input. Let's provide input through the Pub/Sub topic.
+
+Step 5
+Copy some lines from your example.csv.gz:
+
+cd ~/training-data-analyst/courses/machine_learning/deepdive/06_structured/labs/serving
+zcat exampledata.csv.gz
+Step 6
+On your GCP Console, go back into Pub/Sub, click on the babies topic, and then click on Publish message button on top and then click on Publish single message. In the message box, paste the lines you just copied from exampledata.csv.gz and click on Publish button.
+
+9e58fd14886fba1f.png
+
+Step 7
+You may go back into Dataflow jobs on your GCP Console, click on your job and see how the run details have changed for the steps, for example click on write_toBQ and look at Elements added.
+
+Step 8
+Lets verify that the predicted weights have been recorded into the BigQuery table.
+
+Open BigQuery Console
+In the Google Cloud Console, select Navigation menu > BigQuery:
+
+BigQuery_menu.png
+
+The Welcome to BigQuery in the Cloud Console message box opens. This message box provides a link to the quickstart guide and lists UI updates.
+
+Click Done.
+
+Look at the left-side menu and you should see the babyweight dataset. Click on the blue down arrow to its left, and you should see your predictions table.
+
+Note: If you do not see the prediction table, give it a few minutes as the pipeline has allowed-latency and that can add some delay.
+
+predictions_table.png
+
+Step 9
+Type the query below in the Query editor to retrieve rows from your predictions table.
+
+SELECT * FROM babyweight.predictions LIMIT 1000
+Step 10
+Click the Run button. Notice the predicted_weights_pounds column in the result.
+
+query_result.png
+
+Step 11
+Remember that your pipeline is still running. You can publish additional messages from your example.csv.gz and verify new rows added to your predictions table. Once you are satisfied, you may stop the Dataflow pipeline by going into your Dataflow Jobs page, and click the Stop button on the top. Select Drain and click Stop Job.
+
+69cff18d8f1cabb5.png
+
+End your lab
+When you have completed your lab, click End Lab. Qwiklabs removes the resources you’ve used and cleans the account for you.
+
+You will be given an opportunity to rate the lab experience. Select the applicable number of stars, type a comment, and then click Submit.
+
+The number of stars indicates the following:
+
+1 star = Very dissatisfied
+2 stars = Dissatisfied
+3 stars = Neutral
+4 stars = Satisfied
+5 stars = Very satisfied
+You can close the dialog box if you don't want to provide feedback.
+
+For feedback, suggestions, or corrections, please use the Support tab.
+
+©2020 Google LLC All rights reserved. Google and the Google logo are trademarks of Google LLC. All other company and product names may be trademarks of the respective companies with which they are associated.
