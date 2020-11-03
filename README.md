@@ -2,11 +2,22 @@
 Coursera specializations Projects
 
 
-## Course1 : End to End Machine learning on GoogleCloud.
-1. Data exploration with BigQuery and AI Platform Notebooks
-2. Dataset creation with BigQuery 
-3. Model building
-4. Data preprocessing with GCP Dataflow and apache beam at scale.
-5. Training on GCP  & monitoring jobs
-6. Deploying and Predicting with Cloud AI Platform
-7. Building an App Engine app to serve ML predictions
+## COURSE 1
+End-to-End Machine Learning with TensorFlow on GCP
+
+
+## COURSE 2
+Production Machine Learning Systems
+
+
+## COURSE 3
+Image Understanding with TensorFlow on GCP
+
+
+## COURSE 4
+
+Sequence Models for Time Series and Natural Language Processing
+
+## COURSE 5
+Recommendation Systems with TensorFlow on GCP
+
