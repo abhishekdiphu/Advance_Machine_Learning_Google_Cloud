@@ -6,7 +6,7 @@ Please follow the follwing steps first:
 git clone https://github.com/GoogleCloudPlatform/training-data-analyst
 cd training-data-analyst > courses > machine_learning >
 ```
-
+<img src="cert.png" width="500px"/> 
 
 ## COURSE 1
 End-to-End Machine Learning with TensorFlow on GCP
